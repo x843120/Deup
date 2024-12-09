@@ -15,10 +15,20 @@ class Spankbang extends Deup {
           required: true,
           placeholder: '请输入页面路径'
         },
+        path: {
+          username: '账号',
+          required: false,
+          placeholder: '请输入账号'
+        },
+        password: {
+          label: '密码',
+          required: false,
+          placeholder: '请输入密码'
+        }
       };
     
     async check() {
-        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1'，{'l_username': '843120','l_password': '843120'});
+        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1'，{'l_username': (await $storage.inputs).username,'l_password': (await $storage.inputs).password});
         const setCookieHeader = response.headers['set-cookie'];
         if (setCookieHeader) this._baseUrl = setCookieHeader.map(cookie => cookie.split(';')[0]);
         return true;
