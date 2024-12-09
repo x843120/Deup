@@ -43,16 +43,14 @@ class Spankbang extends Deup {
             }
         });
         const [,token] = csrf_token.data.match(/<input[^>]*id="csrf_token"[^>]*value="([^"]*)"/);
-        $alert(token);
-        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1', {l_username: (await $storage.inputs).username, l_password: (await $storage.inputs).password, csrf_token: token},{
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-            }
-        });
-
+        
+        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1', {l_username: (await $storage.inputs).username, l_password: (await $storage.inputs).password, csrf_token: token});
+        
+        $alert(response);
+        
         const setCookieHeader = response.headers['set-cookie'];
         if (setCookieHeader) this._cookie = setCookieHeader.map(cookie => cookie.split(';')[0]);
-        // return true;
+        return true;
     };
     
     async get(object) {
