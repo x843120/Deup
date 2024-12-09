@@ -34,6 +34,8 @@ class Spankbang extends Deup {
     // 流行 /most_popular/
     
     async check() {
+        const response = await $axios.get('https://www.baidu.com/');
+        $alert(response.headers);
         return true;
         
         const timestamp = Date.now();
