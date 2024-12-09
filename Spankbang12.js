@@ -35,13 +35,9 @@ class Spankbang extends Deup {
     
     async check() {
         const timestamp = Date.now();
-        const csrf_token = await $axios.get(
-            this._baseUrl+'/users/auth?ajax=1&login=1&_='+timestamp,{
-            headers: {
-                Referer: "https://spankbang.com/",
-                User-Agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-            }
-        });
+        
+        const csrf_token = await $axios.get(this._baseUrl+'/users/auth?ajax=1&login=1&_='+timestamp);
+        
         const [,token] = csrf_token.data.match(/<input[^>]*id="csrf_token"[^>]*value="([^"]*)"/);
         
         const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1', {l_username: (await $storage.inputs).username, l_password: (await $storage.inputs).password, csrf_token: token});
@@ -49,7 +45,9 @@ class Spankbang extends Deup {
         $alert(response);
         
         const setCookieHeader = response.headers['set-cookie'];
+        
         if (setCookieHeader) this._cookie = setCookieHeader.map(cookie => cookie.split(';')[0]);
+        
         return true;
     };
     
