@@ -35,12 +35,11 @@ class Spankbang extends Deup {
       return {...object, url: videoSrc};
     }
   
-    async list(object, offset, limit) {
-      if(offset>0){
-          return[];
-      }
+    async list(object, offset=0, limit=20) {
+      const page = Math.floor(offset / limit) + 1;
+      const type = (await $storage.inputs).type || 'users/recommendations'
       $alert(offset+','+limit)
-      const url = `${this._baseUrl}/users/recommendations`;
+      const url = `${this._baseUrl}/${type}/${page}`;
       const response = await $axios.get(url, {
         headers: {
           Cookie: this._cookie,
@@ -50,7 +49,8 @@ class Spankbang extends Deup {
     }
 
     async search(object, keyword, offset, limit) {
-        const url = `${this._baseUrl}/s/${keyword}/`;
+        const page = Math.floor(offset / limit) + 1;
+        const url = `${this._baseUrl}/s/${keyword}/${page}`;
         const response = await $axios.get(url, {
           headers: {
             Cookie: this._cookie,
