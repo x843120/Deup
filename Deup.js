@@ -10,14 +10,19 @@ class Spankbang extends Deup {
     _cookie = '';
     _param = '?q=fhd&d=0';//hd fhd uhd
     inputs = {
-        type: {
-          label: '页面地址',
+        path: {
+          label: '页面路径',
           required: true,
-          placeholder: '请输入页面链接'
+          placeholder: '请输入页面路径'
         },
       };
     
-    async check() {return true};
+    async check() {
+        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1'，{'l_username': '843120','l_password': '843120'});
+        const setCookieHeader = response.headers['set-cookie'];
+        if (setCookieHeader) this._baseUrl = setCookieHeader.map(cookie => cookie.split(';')[0]);
+        return true;
+    };
     
     async get(object) {
       const response = await $axios.get(this._baseUrl+object.id);
@@ -39,8 +44,8 @@ class Spankbang extends Deup {
     async list(object, offset, limit) {
       let page = Math.floor(offset / limit) + 1;
       page = page>1 ? page+'/':''
-      const type = (await $storage.inputs).type
-      const url = `${this._baseUrl}${type}${page}${this._param}`;
+      const path = (await $storage.inputs).path
+      const url = `${this._baseUrl}${path}${page}${this._param}`;
       const response = await $axios.get(url, {
         headers: {
           Cookie: this._cookie,
@@ -73,7 +78,7 @@ class Spankbang extends Deup {
             thumbnail: cover,
             cover: cover,
             poster: cover,
-            type: 'video',
+            path: 'video',
           };
         }).get();
     }
