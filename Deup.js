@@ -16,12 +16,12 @@ class Spankbang extends Deup {
       let videoSrc = null;
       for (const res of resolutions) {
          if (parsedData[res] && parsedData[res].length > 0) {
-             videoSrc = res;
+             videoSrc = parsedData[res][0];
              break; 
           }
       }
     
-      return {...object, url: parsedData[videoSrc][0], modified: videoSrc};
+      return {...object, url: videoSrc};
     }
   
     async list(object, offset, limit) {
@@ -45,7 +45,6 @@ class Spankbang extends Deup {
   
     parseVideoList(data) {
       const $ = $cheerio.load(data);
-  
       return $('div.video-list').children('div').map((i, el) => {
           const $a = $(el).find('a').first();
           const $image = $(el).find('img.cover').first();
