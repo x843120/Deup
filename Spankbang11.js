@@ -60,16 +60,13 @@ class Spankbang extends Deup {
       const [,streamData] = response.data.match(/var stream_data\s*=\s*(\{.*?\});/,);
       const parsedData = JSON.parse(streamData.replace(/'/g, '"'));
       const resolutions = ['4k', '1080p', '720p', '480p', '320p', '240p'];
-      let videoSrc = null;
       for (const res of resolutions) {
          if (parsedData[res] && parsedData[res].length > 0) {
-             videoSrc = parsedData[res][0];
              object.url = parsedData[res][0];
-             break; 
+             object.id = `[res]${object.id}`;
+             return {...object};
           }
       }
-    
-      return {...object};
     }
   
     async list(object, offset, limit) {
