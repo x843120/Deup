@@ -37,7 +37,8 @@ class Spankbang extends Deup {
     }
   
     async list(object, offset=0, limit=20) {
-      const page = Math.floor(offset / limit) + 1;
+      let page = Math.floor(offset / limit) + 1;
+      if(page=1) page = '';
       const type = (await $storage.inputs).type || 'users/recommendations'
       $alert(offset+','+limit)
       const url = `${this._baseUrl}/${type}/${page}`;
@@ -50,7 +51,8 @@ class Spankbang extends Deup {
     }
 
     async search(object, keyword, offset, limit) {
-        const page = Math.floor(offset / limit) + 1;
+        let page = Math.floor(offset / limit) + 1;
+        if(page=1) page = '';
         const url = `${this._baseUrl}/s/${keyword}/${page}`;
         const response = await $axios.get(url, {
           headers: {
