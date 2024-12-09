@@ -8,6 +8,17 @@ class Spankbang extends Deup {
     _baseUrl = 'https://spankbang.com';
     _cookie = 'auth=IjM3MDIwMzYyOjo6ODQzMTIwIg._Ld35lHrMYf6AshjM5HgsWBH1w0';
 
+    inputs = {
+        type: {
+          label: '页面地址',
+          required: false,
+        },
+      };
+    
+    async check()=>{return true}
+      
+
+    
     async get(object) {
       const response = await $axios.get(this._baseUrl+object.id);
       const [,streamData] = response.data.match(/var stream_data\s*=\s*(\{.*?\});/,);
