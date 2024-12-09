@@ -26,7 +26,11 @@ class Spankbang extends Deup {
           placeholder: '请输入密码'
         }
       };
-    
+    // 推荐 /users/recommendations
+    // 趋势 /trending_videos/
+    // 未来 /upcoming/
+    // 最新 /new_videos/
+    // 流行 /most_popular/
     async check() {
         const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1'，{'l_username': (await $storage.inputs).username,'l_password': (await $storage.inputs).password});
         const setCookieHeader = response.headers['set-cookie'];
