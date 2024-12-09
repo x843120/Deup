@@ -36,9 +36,9 @@ class Spankbang extends Deup {
     async check() {
         const timestamp = Date.now();
         const csrf_token = await $axios.get(this._baseUrl+'/users/auth?ajax=1&login=1&_='+timestamp);
+        $alert(csrf_token.headers);
         const [,token] = csrf_token.data.match(/<input[^>]*id="csrf_token"[^>]*value="([^"]*)"/);
-        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1&_='+timestamp, {'l_username': (await $storage.inputs).username, 'l_password': (await $storage.inputs).password, 'csrf_token': token});
-        $alert(response.headers);
+        const response = await $axios.post(this._baseUrl+'/users/auth?ajax=1&login=1', {l_username: (await $storage.inputs).username, l_password: (await $storage.inputs).password, csrf_token: token});
         const setCookieHeader = response.headers['set-cookie'];
         if (setCookieHeader) this._cookie = setCookieHeader.map(cookie => cookie.split(';')[0]);
         // return true;
