@@ -25,7 +25,9 @@ class Spankbang extends Deup {
     }
   
     async list(object, offset, limit) {
-      const response = await $axios.get(this._baseUrl, {
+      $alert(offset+','+limit)
+      const url = `${this._baseUrl}/users/recommendations`;
+      const response = await $axios.get(url, {
         headers: {
           Cookie: this._cookie,
         },
