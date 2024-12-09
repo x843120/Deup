@@ -1,22 +1,23 @@
 class Spankbang extends Deup {
     config = {
       name: 'Spankbang',
-      layout: 'cover',
-      hasInput: false
+      layout: 'poster',
+      pageSize: 100,
+      hasInput: true
     };
   
     _baseUrl = 'https://spankbang.com';
-    _cookie = 'auth=IjM3MDIwMzYyOjo6ODQzMTIwIg._Ld35lHrMYf6AshjM5HgsWBH1w0';
-
+    _cookie = '';
+    _param = '?q=fhd&d=0';//hd fhd uhd
     inputs = {
         type: {
           label: '页面地址',
-          required: false,
-          placeholder: '默认为个人推荐地址前面不用加/'
+          required: true,
+          placeholder: '请输入页面链接'
         },
       };
     
-    async check() => true;
+    async check() {return true};
     
     async get(object) {
       const response = await $axios.get(this._baseUrl+object.id);
@@ -27,19 +28,19 @@ class Spankbang extends Deup {
       for (const res of resolutions) {
          if (parsedData[res] && parsedData[res].length > 0) {
              videoSrc = parsedData[res][0];
+             object.url = parsedData[res][0];
              break; 
           }
       }
     
-      return {...object, url: videoSrc};
+      return {...object};
     }
   
-    async list(object, offset=0, limit=20) {
+    async list(object, offset, limit) {
       let page = Math.floor(offset / limit) + 1;
-      if(page=1) page = '';
-      const type = (await $storage.inputs).type || 'users/recommendations'
-      $alert(offset+','+limit)
-      const url = `${this._baseUrl}/${type}/${page}`;
+      page = page>1 ? page+'/':''
+      const type = (await $storage.inputs).type
+      const url = `${this._baseUrl}${type}${page}${this._param}`;
       const response = await $axios.get(url, {
         headers: {
           Cookie: this._cookie,
@@ -50,8 +51,7 @@ class Spankbang extends Deup {
 
     async search(object, keyword, offset, limit) {
         let page = Math.floor(offset / limit) + 1;
-        if(page=1) page = '';
-        const url = `${this._baseUrl}/s/${keyword}/${page}`;
+        const url = `${this._baseUrl}/s/${keyword}/${page}/${this._param}&o=trending`;
         const response = await $axios.get(url, {
           headers: {
             Cookie: this._cookie,
@@ -69,6 +69,7 @@ class Spankbang extends Deup {
           return {
             id: $a.attr('href'),
             name: $a.attr('title'),
+            remark: $a.attr('title'),
             thumbnail: cover,
             cover: cover,
             poster: cover,
@@ -79,3 +80,6 @@ class Spankbang extends Deup {
   }
   
   Deup.execute(new Spankbang());
+  
+  
+  
