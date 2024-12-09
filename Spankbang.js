@@ -15,8 +15,8 @@ class Spankbang extends Deup {
           required: true,
           placeholder: '请输入页面路径'
         },
-        path: {
-          username: '账号',
+        username: {
+          label: '账号',
           required: false,
           placeholder: '请输入账号'
         },
