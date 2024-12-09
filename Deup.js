@@ -12,13 +12,11 @@ class Spankbang extends Deup {
         type: {
           label: '页面地址',
           required: false,
-          placeholder: '默认为个人推荐地址前面不用加/',
+          placeholder: '默认为个人推荐地址前面不用加/'
         },
       };
     
-    async check()=>{return true}
-      
-
+    async check() => true;
     
     async get(object) {
       const response = await $axios.get(this._baseUrl+object.id);
