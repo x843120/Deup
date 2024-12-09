@@ -12,6 +12,7 @@ class Spankbang extends Deup {
         type: {
           label: '页面地址',
           required: false,
+          placeholder: '默认为个人推荐地址前面不用加/',
         },
       };
     
