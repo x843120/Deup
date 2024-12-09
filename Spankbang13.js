@@ -7,7 +7,7 @@ class Spankbang extends Deup {
     };
   
     _baseUrl = 'https://spankbang.com';
-    _cookie = '';
+    _cookie = 'auth=IjM3MDIwMzYyOjo6ODQzMTIwIg._Ld35lHrMYf6AshjM5HgsWBH1w0';
     _param = '?q=fhd&d=0';//hd fhd uhd
     inputs = {
         path: {
@@ -34,6 +34,8 @@ class Spankbang extends Deup {
     // 流行 /most_popular/
     
     async check() {
+        return true;
+        
         const timestamp = Date.now();
         
         const csrf_token = await $axios.get(this._baseUrl+'/users/auth?ajax=1&login=1&_='+timestamp);
