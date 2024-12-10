@@ -54,7 +54,7 @@ class Spankbang extends Deup {
         });
         return this.parseVideoList(response.data);
     }
-  
+
     parseVideoList(data) {
       const $ = $cheerio.load(data);
       return $('div.video-list').children('div').map((i, el) => {
@@ -67,13 +67,10 @@ class Spankbang extends Deup {
             thumbnail: $image.attr('data-src'),
             cover: $image.attr('data-src'),
             poster: $image.attr('data-src'),
-            path: 'video',
+            type: 'video',
           };
         }).get();
     }
   }
-  
+
   Deup.execute(new Spankbang());
-  
-  
-  
