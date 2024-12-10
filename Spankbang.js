@@ -25,7 +25,7 @@ class Spankbang extends Deup {
       for (const res of ['4k', '1080p', '720p', '480p', '320p', '240p']) {
          if (parsedData[res] && parsedData[res].length > 0) {
              object.url = parsedData[res][0];
-             object.name = `[res]${object.name}`;
+             object.id = res;
              return {...object};
           }
       }
