@@ -3,7 +3,7 @@ class Spankbang extends Deup {
       name: 'Spankbang',
       layout: 'poster',
       pageSize: 100,
-      hasInput: true
+      hasInput: false
     };
   
     _baseUrl = 'https://spankbang.com';
